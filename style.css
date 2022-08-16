@@ -1,3 +1,8 @@
+:root {
+    --grid-rows: 1;
+    --grid-cols: 1;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -40,11 +45,13 @@ body {
 #grid {
     width: 75%;
     height: 85%;
-    margin: 0;
-    padding: 10px;
+    margin: 0px;
+    padding: 0px;
     background-color: red;
     border: 2px solid black;
-    
+    display: grid;
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
 }
 
 #clearCont {
@@ -52,5 +59,15 @@ body {
     height: 15%;
     flex-grow: 1;
     border: 2px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cell {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #ddd;
+    background-color: white;
 }
 
