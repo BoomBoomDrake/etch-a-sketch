@@ -64,6 +64,11 @@ body {
     align-items: center;
 }
 
+#sliderCont {
+    display: flex;
+    flex-direction: column;
+}
+
 .cell {
     margin: 0px;
     padding: 0px;
