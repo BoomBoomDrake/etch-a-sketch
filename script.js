@@ -46,10 +46,10 @@ function draw(e) {
        e.target.style.backgroundColor = ink;
        e.target.style.borderTop = ink;
        e.target.style.borderRight = ink;
-    } else if (eraser) {
+    } else if (erase) {
         e.target.style.backgroundColor = ink;
-        e.target.style.borderTop = '#ddd';
-        e.target.style.borderRight = '#ddd';
+        e.target.style.borderTop = 'grey';
+        e.target.style.borderRight = 'grey';
     }
 }
 
@@ -59,7 +59,8 @@ function randomColor() {
     //console.log(ink);
 }
 
-let color = false
+// Button functions
+let color = false;
 colorPicker.addEventListener('change', () => {
     // toggle color button selection
     if (!color) {
@@ -76,8 +77,81 @@ colorPicker.addEventListener('change', () => {
         eraserBtn.classList.remove('btn-on');
     }
 
-    ink = colorPicker.value
+    ink = colorPicker.value;
 })
+
+let black = false;
+blackBtn.addEventListener('click', () => {
+    if (!black) {
+        color = false;
+        black = true;
+        random = false;
+        shade = false;
+        erase = false;
+
+        colorPicker.classList.remove('btn-on');
+        blackBtn.classList.add('btn-on');
+        rainbowBtn.classList.remove('btn-on');
+        shadeBtn.classList.remove('btn-on');
+        eraserBtn.classList.remove('btn-on');
+    }
+
+    ink = 'black';
+})
+
+let random = false;
+rainbowBtn.addEventListener('click', () => {
+    if (!random) {
+        color = false;
+        black = false;
+        random = true;
+        shade = false;
+        erase = false;
+
+        colorPicker.classList.remove('btn-on');
+        blackBtn.classList.remove('btn-on');
+        rainbowBtn.classList.add('btn-on');
+        shadeBtn.classList.remove('btn-on');
+        eraserBtn.classList.remove('btn-on');        
+    }
+})
+// ****** STILL NEED TO FIGURE OUT SHADE FUNCTION ******
+let shade = false;
+shadeBtn.addEventListener('click', () => {
+    if (!shade) {
+        color = false;
+        black = false;
+        random = false;
+        shade = true;
+        erase = false;
+
+        colorPicker.classList.remove('btn-on');
+        blackBtn.classList.remove('btn-on');
+        rainbowBtn.classList.remove('btn-on');
+        shadeBtn.classList.add('btn-on');
+        eraserBtn.classList.remove('btn-on');        
+    }
+})
+
+let erase = false;
+eraserBtn.addEventListener('click', () => {
+    if (!erase) {
+        color = false;
+        black = false;
+        random = false;
+        shade = false;
+        erase = true;
+
+        colorPicker.classList.remove('btn-on');
+        blackBtn.classList.remove('btn-on');
+        rainbowBtn.classList.remove('btn-on');
+        shadeBtn.classList.remove('btn-on');
+        eraserBtn.classList.add('btn-on');        
+    }
+
+    ink = 'white';
+})
+
 //Grid slider function
 gridSlider.addEventListener('input', () => {
     gridSliderLabel.textContent = `${gridSlider.value} X ${gridSlider.value}`;
