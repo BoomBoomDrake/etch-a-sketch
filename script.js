@@ -6,7 +6,7 @@ const rainbowBtn = document.getElementById('rainbowBtn');
 const shadeBtn = document.getElementById('shadeBtn');
 const eraserBtn = document.getElementById('eraserBtn');
 const grid = document.getElementById('grid');
-let cell;
+let cellArray;
 const clearbtn = document.getElementById('clearbtn');
 
 const gridSlider = document.getElementById('gridSlider');
@@ -22,14 +22,20 @@ function genGrid(rows) {
         cell.className = 'cell';
         grid.appendChild(cell);
     }
+
+    cellArray = document.querySelectorAll('.cell');
+    listen();
 }
 genGrid(16);
 
-function clearGrid(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+function listen() {
+    for (let i = 0; i < cellArray.length; i++) {
+        cellArray[i].addEventListener('click', () =>{
+            cellArray[i].style.backgroundColor = 'black';
+        });
     }
 }
+
 
 //Grid slider function
 gridSlider.addEventListener('input', () => {
@@ -40,3 +46,9 @@ gridSlider.addEventListener('input', () => {
         genGrid(gridSlider.value);
     })
 })
+
+function clearGrid(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
