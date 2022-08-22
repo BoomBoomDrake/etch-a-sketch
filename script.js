@@ -163,6 +163,11 @@ gridSlider.addEventListener('input', () => {
     })
 })
 
+clearBtn.addEventListener('click', () => {
+    clearGrid(grid);
+    genGrid(gridSlider.value);
+});
+
 function clearGrid(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
