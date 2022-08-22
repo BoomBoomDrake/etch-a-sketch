@@ -47,9 +47,10 @@ function draw(e) {
        e.target.style.borderTop = ink;
        e.target.style.borderRight = ink;
     } else if (erase) {
-        e.target.style.backgroundColor = ink;
-        e.target.style.borderTop = 'grey';
-        e.target.style.borderRight = 'grey';
+        e.target.removeAttribute('style');
+        //e.target.style.backgroundColor = ink;
+        //e.target.style.borderTop = 'grey'; // ****** Why does this erase the border all together? ******
+        //e.target.style.borderRight = 'grey';
     }
 }
 
