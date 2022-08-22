@@ -7,16 +7,8 @@ Finished Product Should:
 
 Things To Do:
 
-    HTML:
-        * Insert slider input for grid dimensions
-
     CSS:
         * Choose color theme
-        * Round off button borders
-        * Grid:
-            - Border shadow
-            - Flex
-            - Default Dimensions
 
     JS:
         * Target buttons, grid, and slider
