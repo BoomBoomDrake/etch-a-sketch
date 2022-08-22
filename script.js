@@ -35,7 +35,7 @@ function listen() {
 }
 
 // Default ink color
-let ink = 'black'
+let ink = 'rgb(0, 0, 0)'
 function draw(e) {
     if (black || color) {
         e.target.style.backgroundColor = ink;
@@ -51,6 +51,8 @@ function draw(e) {
         //e.target.style.backgroundColor = ink;
         //e.target.style.borderTop = 'grey'; // ****** Why does this erase the border all together? ******
         //e.target.style.borderRight = 'grey';
+    } else if (shade) {
+        shadeFun(e);
     }
 }
 
@@ -97,7 +99,7 @@ blackBtn.addEventListener('click', () => {
         eraserBtn.classList.remove('btn-on');
     }
 
-    ink = 'black';
+    ink = 'rgb(0, 0, 0)';
 })
 
 let random = false;
@@ -153,50 +155,40 @@ eraserBtn.addEventListener('click', () => {
     ink = 'white';
 })
 
-function hexToHSL(H) {
-    // Convert hex to RGB first
-    let r = 0, g = 0, b = 0;
-    if (H.length == 4) {
-      r = "0x" + H[1] + H[1];
-      g = "0x" + H[2] + H[2];
-      b = "0x" + H[3] + H[3];
-    } else if (H.length == 7) {
-      r = "0x" + H[1] + H[2];
-      g = "0x" + H[3] + H[4];
-      b = "0x" + H[5] + H[6];
-    }
-    // Then to HSL
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    let cmin = Math.min(r,g,b),
-        cmax = Math.max(r,g,b),
-        delta = cmax - cmin,
-        h = 0,
-        s = 0,
-        l = 0;
+function RGBToHex(rgb) {
+    // Choose correct separator
+    let sep = rgb.indexOf(",") > -1 ? "," : " ";
+    // Turn "rgb(r,g,b)" into [r,g,b]
+    rgb = rgb.substr(4).split(")")[0].split(sep);
   
-    if (delta == 0)
-      h = 0;
-    else if (cmax == r)
-      h = ((g - b) / delta) % 6;
-    else if (cmax == g)
-      h = (b - r) / delta + 2;
-    else
-      h = (r - g) / delta + 4;
+    let r = (+rgb[0]).toString(16),
+        g = (+rgb[1]).toString(16),
+        b = (+rgb[2]).toString(16);
   
-    h = Math.round(h * 60);
+    if (r.length == 1)
+      r = "0" + r;
+    if (g.length == 1)
+      g = "0" + g;
+    if (b.length == 1)
+      b = "0" + b;
   
-    if (h < 0)
-      h += 360;
-  
-    l = (cmax + cmin) / 2;
-    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-    s = +(s * 100).toFixed(1);
-    l = +(l * 100).toFixed(1);
-  
-    return "hsl(" + h + "," + s + "%," + l + "%)";
+    return "#" + r + g + b;
   }
+
+function shadeFun(e) {
+    let x = 0.90
+    let value = `brightness(${x})`
+    if (!e.target.style.filter) {
+        e.target.style.filter = value;
+    } else {
+        return `brightness(${x - 0.10})`;
+    }
+}
+
+function shadeColor(col, amt) {
+    col = parseInt(col, 16);
+    return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16);
+}
 
 //Grid slider function
 gridSlider.addEventListener('input', () => {
