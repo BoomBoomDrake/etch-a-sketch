@@ -11,10 +11,7 @@ Things To Do:
         * Choose color theme
 
     JS:
-        * Target buttons, grid, and slider
         * Create functions:
-            - Grid generation
-            - Custom Color change on mouse hov
-            - Black color change on mouse hov
             - 10% shade increment on mouse hov
-            - Whiteout/Clear on mouse hov
+        
+        * How to make larger grids more efficient?
