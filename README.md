@@ -9,9 +9,3 @@ Things To Do:
 
     CSS:
         * Choose color theme
-
-    JS:
-        * Create functions:
-            - 10% shade increment on mouse hov
-        
-        * How to make larger grids more efficient?
