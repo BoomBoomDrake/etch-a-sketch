@@ -20,6 +20,7 @@ function genGrid(rows) {
     for (let c = 0; c < (rows * rows); c++) {
         cell = document.createElement('div');
         cell.className = 'cell';
+        cell.dataset.darken = 0; // Keeps track of current step (0-9) for shade function
         grid.appendChild(cell);
     }
 
@@ -48,11 +49,9 @@ function draw(e) {
        e.target.style.borderRight = ink;
     } else if (erase) {
         e.target.removeAttribute('style');
-        //e.target.style.backgroundColor = ink;
-        //e.target.style.borderTop = 'grey'; // ****** Why does this erase the border all together? ******
-        //e.target.style.borderRight = 'grey';
     } else if (shade) {
-        shadeFun(e);
+        let currentColor = darken(e);
+        e.target.style = `background-color: rgba(${currentColor})`;
     }
 }
 
@@ -155,41 +154,47 @@ eraserBtn.addEventListener('click', () => {
     ink = 'white';
 })
 
-function RGBToHex(rgb) {
-    // Choose correct separator
-    let sep = rgb.indexOf(",") > -1 ? "," : " ";
-    // Turn "rgb(r,g,b)" into [r,g,b]
-    rgb = rgb.substr(4).split(")")[0].split(sep);
-  
-    let r = (+rgb[0]).toString(16),
-        g = (+rgb[1]).toString(16),
-        b = (+rgb[2]).toString(16);
-  
-    if (r.length == 1)
-      r = "0" + r;
-    if (g.length == 1)
-      g = "0" + g;
-    if (b.length == 1)
-      b = "0" + b;
-  
-    return "#" + r + g + b;
+function darken(e) {
+    let oldColor = e.target.style.backgroundColor;
+    console.log(oldColor);
+    let rgbaString = (oldColor.charAt(3) == 'a') ? oldColor.slice(5, -1) : oldColor.slice(4, -1);
+    //checks whether backgroundColor is in rgba or rgb format
+    let rgbaArray = rgbaString.split(',');
+    let red = rgbaArray[0];
+    let green = rgbaArray[1];
+    let blue = rgbaArray[2];
+    let alpha = rgbaArray[3] ? rgbaArray[3] : 1;
+    let currentDarkeningStep = e.target.dataset.darken;
+    if(currentDarkeningStep == 9) return [0, 0, 0, 1]; //cell is already black
+    console.log([red, green, blue, alpha]);
+    console.log('Current darkening step: ' + currentDarkeningStep);
+    let newRed = getNewColorValue(red, currentDarkeningStep, false);
+    let newGreen = getNewColorValue(green, currentDarkeningStep, false);
+    let newBlue = getNewColorValue(blue, currentDarkeningStep, false);
+    let newAlpha = getNewColorValue(alpha, currentDarkeningStep, true);
+    currentDarkeningStep++;
+    e.target.dataset.darken = currentDarkeningStep;
+    console.log([newRed, newGreen, newBlue, newAlpha]);
+    return [newRed, newGreen, newBlue, newAlpha];
   }
 
-function shadeFun(e) {
-    let x = 0.90
-    let value = `brightness(${x})`
-    if (!e.target.style.filter) {
-        e.target.style.filter = value;
-    } else {
-        return `brightness(${x - 0.10})`;
+function getNewColorValue(currentColorValue, step, alpha) {
+    let increment;
+    let newValue;
+    if(!alpha) {
+      increment = currentColorValue / (10 - step);
+      console.log('Current color value: ' + currentColorValue);
+      console.log('Increment: ' + increment);
+      newValue = currentColorValue - increment;
+    }else {
+      increment = (1 - currentColorValue) / (10 - step);
+      console.log('Current color value: ' + currentColorValue);
+      console.log('Increment: ' + increment);
+      newValue = +currentColorValue + increment; 
     }
-}
-
-function shadeColor(col, amt) {
-    col = parseInt(col, 16);
-    return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16);
-}
-
+    console.log('New color value: ' + newValue);
+    return (newValue);
+  }
 //Grid slider function
 gridSlider.addEventListener('input', () => {
     gridSliderLabel.textContent = `${gridSlider.value} X ${gridSlider.value}`;
