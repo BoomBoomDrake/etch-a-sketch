@@ -30,9 +30,7 @@ function genGrid(rows) {
 genGrid(16);
 
 function listen() {
-    for (let i = 0; i < cellArray.length; i++) {
-        cellArray[i].addEventListener('mouseenter', draw);
-    }
+    cellArray.forEach(cell => cell.addEventListener('mouseenter', draw));
 }
 
 // Default ink color
