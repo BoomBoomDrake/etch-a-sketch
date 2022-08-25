@@ -9,3 +9,6 @@ Things To Do:
 
     CSS:
         * Choose color theme
+
+    JS:
+        * Add toggle on/off ability to all option buttons
